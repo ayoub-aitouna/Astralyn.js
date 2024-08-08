@@ -1,0 +1,30 @@
+{
+  "name": "rerender",
+  "version": "1.0.0",
+  "main": "dist/rerender.js",
+  "files": [
+    "dist/rerender.js"
+  ],
+  "scripts": {
+    "prepack": "npm run build",
+    "build": "tsc && rollup -c",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "eslint": "^9.8.0",
+    "jsdom": "^24.1.1",
+    "rollup": "^4.20.0",
+    "rollup-plugin-cleanup": "^3.2.1",
+    "rollup-plugin-filesize": "^10.0.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "typescript": "^5.5.4",
+    "vitest": "^2.0.5"
+  }
+}
