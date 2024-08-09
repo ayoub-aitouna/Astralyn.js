@@ -17,7 +17,9 @@ export type VDOM_TYPE = {
 
 export function h(tag: string, props: any = {}, children: Array<any> = []): VDOM_TYPE {
     return {
-        tag, props, children: mapTextNodes(withoutNulls(children)),
+        tag,
+        props,
+        children: mapTextNodes(withoutNulls(children)),
         type: DOM_TYPES.ELEMENT
     }
 }
