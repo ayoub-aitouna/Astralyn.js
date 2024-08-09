@@ -32,6 +32,7 @@ function createTextNode(vdom: VDOM_TYPE, parentEl: any) {
 function createElementNode(vdom: VDOM_TYPE, parentEl: any) {
     const { tag, props, children } = vdom;
     const element = document.createElement(tag as string);
+    
     addProps(element, props, vdom);
     vdom.el = element;
 

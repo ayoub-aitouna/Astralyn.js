@@ -11,7 +11,7 @@ export type VDOM_TYPE = {
     props?: any;
     value?: string;
     children?: Array<VDOM_TYPE>;
-    el?: any;
+    el?: HTMLElement | any;
     listeners?: any
 }
 
@@ -36,7 +36,7 @@ function hString(str: string): VDOM_TYPE {
     }
 }
 
-function hFragment(children: Array<any>): VDOM_TYPE {
+export function hFragment(children: Array<any>): VDOM_TYPE {
     return {
         children: mapTextNodes(withoutNulls(children)),
         type: DOM_TYPES.FRAGMENT

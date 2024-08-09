@@ -9,6 +9,14 @@ export function addEventListeners(events: any, element: any) {
     return addedListeners;
 }
 
+export function removeEventListeners(events: any, element: any) {
+    if (!events)
+        return;
+    Object.entries(events).forEach(([eventName, handler]) => {
+        element.removeEventListener(eventName, handler)
+    })
+}
+
 export function addEventListener(eventName: any, handler: any, el: any) {
     el.addEventListener(eventName, handler)
     return handler
