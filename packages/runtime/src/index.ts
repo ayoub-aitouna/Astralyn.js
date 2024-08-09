@@ -1,9 +1,9 @@
-console.log('This will soon be a frontend framework!')
-export function substract(x: number, y: number): number {
-    return x - y;
-}
+import { h } from "./h";
+import { mountDOM } from "./mount-dom";
+const vDom = h('form', { class: 'login-form', action: 'login' }, [
+    h('input', { type: 'text', name: 'user' }),
+    h('input', { type: 'password', name: 'pass' }),
+    h('button', { on: { click: () => { } } }, ['Login'])
+])
 
-const x = 20;
-const y = 10;
-
-console.log(`${x} - ${y} = ${substract(x, y)}`);
+mountDOM(vDom, document.body);
