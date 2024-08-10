@@ -7,7 +7,7 @@ export default {
     plugins: [typescript(), cleanup()],
     output: [
         {
-            file: 'dist/rerender.js',
+            file: 'dist/astralyn.js',
             format: 'esm',
             plugins: [filesize()]
         }

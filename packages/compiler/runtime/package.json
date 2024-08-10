@@ -1,9 +1,9 @@
 {
-  "name": "rerender",
+  "name": "astralyn",
   "version": "1.0.0",
-  "main": "dist/rerender.js",
+  "main": "dist/astralyn.js",
   "files": [
-    "dist/rerender.js"
+    "dist/astralyn.js"
   ],
   "scripts": {
     "prepack": "npm run build",

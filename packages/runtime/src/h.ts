@@ -29,7 +29,7 @@ function mapTextNodes(children: Array<any>) {
     return children.map((child) => typeof child === 'string' ? hString(child) : child)
 }
 
-function hString(str: string): VDOM_TYPE {
+export function hString(str: string): VDOM_TYPE {
     return {
         type: DOM_TYPES.TEXT,
         value: str,

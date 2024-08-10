@@ -1,10 +1,10 @@
 {
-  "name": "rerender-loader",
+  "name": "astralyn-loader",
   "version": "1.0.0",
-  "main": "dist/rerender.js",
+  "main": "dist/astralyn.js",
   "type": "module",
   "files": [
-    "dist/rerender.js"
+    "dist/astralyn.js"
   ],
   "scripts": {
     "prepack": "npm run build",
