@@ -2,6 +2,7 @@ import { destroyDOM } from "./destroy-dom";
 import { Dispatcher } from "./dispatcher";
 import { VDOM_TYPE } from "./h";
 import { mountDOM } from "./mount-dom";
+import { patchDOM } from './patch-dom'
 
 type AppInstanceType = {
     state: any,
@@ -32,14 +33,17 @@ export function createApp({ state, view, reducers = {} }: AppInstanceType) {
     function renderApp() {
         if (vdom)
             destroyDOM(vdom)
-        vdom = view(state, emit)
-        mountDOM(vdom, parentEl)
+        const new_vdom = view(state, emit)
+        vdom = patchDOM(vdom, new_vdom, parentEl)
     }
 
     return {
         mount(_parentEl: any) {
+            if (vdom)
+                throw new Error('This Application Already Mounted')
             parentEl = _parentEl
-            renderApp()
+            vdom = view(state, emit)
+            mountDOM(vdom, vdom)
         },
         unmount() {
             if (vdom)
