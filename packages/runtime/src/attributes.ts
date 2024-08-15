@@ -12,7 +12,7 @@ export function setAttributes(el: any, attrs: any) {
     });
 }
 
-function setClass(el: any, className: any) {
+export function setClass(el: any, className: any) {
     el.className = ''
     if (Array.isArray(className)) {
         el.classList.add(...className)
@@ -22,16 +22,16 @@ function setClass(el: any, className: any) {
 }
 
 
-function setStyle(el: any, name: string, value: any) {
+export function setStyle(el: any, name: string, value: any) {
     el.style[name] = value
 }
 
-function removeStyle(el: any, name: string, value: any) {
+export function removeStyle(el: any, name: string, value: any) {
     el.style[name] = null
 }
 
 
-function setAttribute(el: any, name: string, value: any) {
+export function setAttribute(el: any, name: string, value: any) {
     if (value == null)
         removeAttribute(el, name)
     else if (name.startsWith('data-'))
@@ -40,7 +40,7 @@ function setAttribute(el: any, name: string, value: any) {
         el[name] = value
 }
 
-function removeAttribute(el: any, name: string) {
+export function removeAttribute(el: any, name: string) {
     el[name] = null
     el.removeAttribute(name)
 }
