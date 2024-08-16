@@ -1,4 +1,5 @@
-import { createApp, h, hFragment } from 'https://unpkg.com/astralyn@1'
+// import { createApp, h, hFragment } from 'https://unpkg.com/astralyn@2'
+import { createApp, h, hFragment } from './astralyn.js'
 const state = {
     currentTodo: '',
     edit: {

@@ -5,6 +5,11 @@ export const ARRAY_DIFF_OP = {
     NOOP: 'noop'
 }
 
+type ArrayDiffType = {
+    removed: Array<string>
+    added: Array<string>
+}
+
 class ArrayWithOriginalIndices {
     #array: any[] = [];
     #originalIndices: number[] = [];
@@ -101,7 +106,7 @@ export function withoutNulls(children: Array<any>) {
 }
 
 
-export function ArrayDiff(oldArray: any[], newArray: any[]) {
+export function ArrayDiff(oldArray: any[], newArray: any[]): ArrayDiffType {
     // TODO: get index of added/removed element 
     return {
         added: newArray.filter(item => !oldArray.includes(item)),

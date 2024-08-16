@@ -5,6 +5,7 @@ export const DOM_TYPES = {
     ELEMENT: 'element',
     FRAGMENT: 'fragment'
 }
+
 export type VDOM_TYPE = {
     type: string;
     tag?: string;
@@ -41,6 +42,21 @@ export function hFragment(children: Array<any>): VDOM_TYPE {
         children: mapTextNodes(withoutNulls(children)),
         type: DOM_TYPES.FRAGMENT
     }
+}
+
+
+export function extractChildren(vdom: VDOM_TYPE, indicator = 0): Array<VDOM_TYPE> {
+    if (vdom.children == null)
+        return []
+    const children = []
+    for (const child of vdom.children) {
+        if (child.type === DOM_TYPES.FRAGMENT) {
+            children.push(...extractChildren(child, indicator + 1))
+        }
+        else
+            children.push(child)
+    }
+    return children;
 }
 
 

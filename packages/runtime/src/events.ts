@@ -18,6 +18,9 @@ export function removeEventListeners(events: any, element: any) {
 }
 
 export function addEventListener(eventName: any, handler: any, el: any) {
-    el.addEventListener(eventName, handler)
-    return handler
+    function boundHandler(event: any) {
+        handler(event)
+    }
+    el.addEventListener(eventName, boundHandler)
+    return boundHandler
 }

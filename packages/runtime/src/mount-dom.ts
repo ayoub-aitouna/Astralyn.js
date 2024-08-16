@@ -64,11 +64,12 @@ function addProps(el: any, props: any, vdom: VDOM_TYPE) {
   setAttributes(el, attrs);
 }
 
-function insert(index: number | null, el: any, parentEl: HTMLElement): void {
-  if (!index) return parentEl.append(el);
+function insert(index: number | null, el: any, parentEl: any): void {
+  if (index == null) return parentEl.append(el);
   if (index < 0)
     throw new Error(`Index must be a positive integer, got ${index}`);
   if (index >= parentEl.childNodes.length) return parentEl.append(el);
   const node = parentEl.childNodes[index];
   parentEl.insertBefore(el, node);
 }
+

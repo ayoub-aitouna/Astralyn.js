@@ -26,7 +26,7 @@ export function setStyle(el: any, name: string, value: any) {
     el.style[name] = value
 }
 
-export function removeStyle(el: any, name: string, value: any) {
+export function removeStyle(el: any, name: string) {
     el.style[name] = null
 }
 

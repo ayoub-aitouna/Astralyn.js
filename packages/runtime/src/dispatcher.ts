@@ -8,7 +8,7 @@ export class Dispatcher {
             this.#subs.set(commandName, [])
         const handlers = this.#subs.get(commandName) as any[];
         if (handlers.includes(handler))
-            return () => {}
+            return () => { }
         handlers.push(handler);
         return () => {
             const idx = handlers.indexOf(handler);
@@ -29,6 +29,8 @@ export class Dispatcher {
             this.#subs.get(commandName)?.forEach((handler) => handler(payload))
         else
             console.warn(`No handlers for command: ${commandName}`)
-        this.#afterHandlers.forEach((handler) => handler())
+        this.#afterHandlers.forEach((handler) => {
+            handler()
+        })
     }
 }

@@ -16,6 +16,7 @@ type AppInstanceType = {
 export function createApp({ state, view, reducers = {} }: AppInstanceType) {
   let parentEl: any = null;
   let vdom: VDOM_TYPE | null = null;
+
   const dispatcher = new Dispatcher();
   const subscriptions = [dispatcher.afterEveryHandler(renderApp)];
 
@@ -32,8 +33,7 @@ export function createApp({ state, view, reducers = {} }: AppInstanceType) {
   }
 
   function renderApp() {
-    if (vdom) destroyDOM(vdom);
-    if (!vdom) throw new Error("Unable To Rerender Null Virtaul Dome");
+    if (!vdom) throw new Error("Unable To Rerender Null Virtual DOM");
     const new_vdom = view(state, emit);
     vdom = patchDOM(vdom, new_vdom, parentEl);
   }
@@ -43,7 +43,9 @@ export function createApp({ state, view, reducers = {} }: AppInstanceType) {
       if (vdom) throw new Error("This Application Already Mounted");
       parentEl = _parentEl;
       vdom = view(state, emit);
-      mountDOM(vdom, vdom);
+      mountDOM(vdom, parentEl);
+
+      return this;
     },
     unmount() {
       if (vdom) destroyDOM(vdom);
