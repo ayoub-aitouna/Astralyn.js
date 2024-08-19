@@ -5,7 +5,8 @@ import { addEventListeners } from "./events";
 export function mountDOM(
   vdom: VDOM_TYPE,
   parentEl: any,
-  index: number | null = null
+  index: number | null = null,
+  hostComponent: any = null
 ) {
   switch (vdom.type) {
     case DOM_TYPES.TEXT:

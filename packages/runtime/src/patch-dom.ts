@@ -12,7 +12,7 @@ export function patchDOM(
   vdom: VDOM_TYPE,
   new_vdom: VDOM_TYPE,
   parentEl: any,
-  indicator: number = 0
+  hostComponent: any = null
 ): VDOM_TYPE | null {
   if (!areNodesEqual(vdom, new_vdom)) {
     const index = findIndexInParent(parentEl, vdom?.el);
@@ -28,7 +28,7 @@ export function patchDOM(
       pathElement(vdom, new_vdom);
       break;
   }
-  pathChildren(vdom, new_vdom, indicator);
+  pathChildren(vdom, new_vdom);
   return new_vdom;
 }
 
@@ -114,17 +114,18 @@ function patchEvents(
   return addedListeners;
 }
 
-function pathChildren(vdom: VDOM_TYPE, new_vdom: VDOM_TYPE, indicator: number) {
+function pathChildren(vdom: VDOM_TYPE, new_vdom: VDOM_TYPE, hostComponent: any = null) {
   const oldChildren = extractChildren(vdom)
   const newChildren = extractChildren(new_vdom)
   const parentEl = vdom.el as HTMLElement;
   const sequences = arraysDiffSequence(oldChildren, newChildren, areNodesEqual)
+  const offset = hostComponent?.offset ?? 0;
 
   for (const seq of sequences) {
     const { originalIndex, index, item } = seq;
     switch (seq.op) {
       case ARRAY_DIFF_OP.ADD:
-        mountDOM(item, vdom.el, index)
+        mountDOM(item, vdom.el, index + offset, hostComponent)
         break;
       case ARRAY_DIFF_OP.REMOVE:
         destroyDOM(item)
@@ -135,13 +136,13 @@ function pathChildren(vdom: VDOM_TYPE, new_vdom: VDOM_TYPE, indicator: number) {
 
         const el = oldChild.el;
 
-        const elAtTargetIndex = parentEl.childNodes[index]
+        const elAtTargetIndex = parentEl.childNodes[index + offset]
 
         parentEl.insertBefore(el, elAtTargetIndex)
-        patchDOM(oldChild, newChild, parentEl, indicator + 1)
+        patchDOM(oldChild, newChild, parentEl, hostComponent)
         break;
       case ARRAY_DIFF_OP.NOOP:
-        patchDOM(oldChildren[originalIndex], newChildren[index], parentEl, indicator + 1)
+        patchDOM(oldChildren[originalIndex], newChildren[index], parentEl, hostComponent)
         break;
     }
   }
