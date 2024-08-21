@@ -12,6 +12,7 @@ import {
 import { ArrayDiff, arraysDiffSequence, ARRAY_DIFF_OP } from "./utils/array";
 import { isNotBlankOrEmptyString } from "./utils/strings";
 import { addEventListener } from "./events";
+import { extractPropsAndEvents } from "./utils/props";
 
 export function patchDOM(
 	vdom: VDOM_TYPE,
@@ -106,7 +107,10 @@ function patchClasses(el: HTMLElement, oldClass: any, newClass: any) {
 }
 
 function patchStyles(el: any, oldStyle: any, newStyle: any) {
-	const { added, updated, removed } = objectDiff(oldStyle, newStyle);
+	const { added, updated, removed } = objectDiff(
+		oldStyle || {},
+		newStyle || {}
+	);
 	for (const style of removed) removeStyle(el, style);
 	for (const style of added.concat(updated))
 		setStyle(el, style, newStyle[style]);
@@ -186,8 +190,9 @@ function toClassList(classes: any = "") {
 		.filter(isNotBlankOrEmptyString);
 }
 function patchComponent(vdom: VDOM_TYPE, new_vdom: VDOM_TYPE) {
-	const { props } = new_vdom;
-	vdom.component.updateProps(props);
+	// const { props } = new_vdom;
+	const { props, events } = extractPropsAndEvents(new_vdom);
+	vdom.component.updateProps(props, events);
 	new_vdom.component = vdom.component;
 	new_vdom.el = new_vdom.component.firstElement;
 }

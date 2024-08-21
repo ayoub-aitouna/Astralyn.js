@@ -1,56 +1,32 @@
 import { destroyDOM } from "./destroy-dom";
-import { Dispatcher } from "./dispatcher";
-import { VDOM_TYPE } from "./h";
+import { h, VDOM_TYPE } from "./h";
 import { mountDOM } from "./mount-dom";
-import { patchDOM } from "./patch-dom";
 
-type AppInstanceType = {
-  state: any;
-  view: (
-    state: any,
-    emit: (eventName: string, payload: any) => void
-  ) => VDOM_TYPE;
-  reducers: any;
-};
+export function createApp(RootComponent: any, props: any) {
+	let parentEl: any = null;
+	let vdom: VDOM_TYPE | null = null;
+	let isMounted = false;
 
-export function createApp({ state, view, reducers = {} }: AppInstanceType) {
-  let parentEl: any = null;
-  let vdom: VDOM_TYPE | null = null;
+	function reset() {
+		parentEl = null;
+		vdom = null;
+		isMounted = false;
+	}
 
-  const dispatcher = new Dispatcher();
-  const subscriptions = [dispatcher.afterEveryHandler(renderApp)];
-
-  function emit(eventName: string, payload: any) {
-    dispatcher.dispatch(eventName, payload);
-  }
-
-  for (const actinName in reducers) {
-    const reducer = reducers[actinName];
-    const subs = dispatcher.subscribe(actinName, (payload: any) => {
-      state = reducer(state, payload);
-    });
-    subscriptions.push(subs);
-  }
-
-  function renderApp() {
-    if (!vdom) throw new Error("Unable To Rerender Null Virtual DOM");
-    const new_vdom = view(state, emit);
-    vdom = patchDOM(vdom, new_vdom, parentEl);
-  }
-
-  return {
-    mount(_parentEl: any) {
-      if (vdom) throw new Error("This Application Already Mounted");
-      parentEl = _parentEl;
-      vdom = view(state, emit);
-      mountDOM(vdom, parentEl);
-
-      return this;
-    },
-    unmount() {
-      if (vdom) destroyDOM(vdom);
-      vdom = null;
-      subscriptions.forEach((unsubscribe) => unsubscribe());
-    },
-  };
+	return {
+		mount(_parentEl: any) {
+			if (isMounted)
+				throw new Error("This Application Already Mounted");
+			parentEl = _parentEl;
+			vdom = h(RootComponent, props);
+			mountDOM(vdom, parentEl);
+			isMounted = true;
+			return this;
+		},
+		unmount() {
+			if (!isMounted) throw new Error("This Application is not mounted");
+			if (vdom) destroyDOM(vdom);
+			reset();
+		},
+	};
 }

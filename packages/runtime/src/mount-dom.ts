@@ -1,6 +1,7 @@
 import { DOM_TYPES, VDOM_TYPE } from "./h";
 import { setAttributes } from "./attributes";
 import { addEventListeners } from "./events";
+import { extractPropsAndEvents } from "./utils/props";
 
 export function mountDOM(
 	vdom: VDOM_TYPE,
@@ -89,7 +90,9 @@ function createComponentNode(
 	hostComponent: any = null
 ) {
 	const Component = vdom.tag;
-	const instance = new Component(vdom.props);
+	const { props, events } = extractPropsAndEvents(vdom);
+	const instance = new Component(props, events, hostComponent);
+
 	instance.mount(parentEl, index);
 	vdom.component = instance;
 	vdom.el = instance.firstElement;
